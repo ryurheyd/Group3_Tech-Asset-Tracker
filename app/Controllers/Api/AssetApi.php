@@ -7,10 +7,13 @@ use CodeIgniter\RESTful\ResourceController;
 
 class AssetApi extends ResourceController
 {
+    // Define the model used by this API controller
     protected $modelName = AssetModel::class;
 
+    // Set JSON as the default response format
     protected $format = 'json';
 
+    /* Retrieve all assets */
     public function index()
     {
         return $this->respond(
@@ -18,10 +21,12 @@ class AssetApi extends ResourceController
         );
     }
 
+    /* Retrieve a single asset by ID */
     public function show($id = null)
     {
         $data = $this->model->find($id);
 
+        // Return 404 if asset does not exist
         if (!$data) {
 
             return $this->failNotFound(
@@ -32,10 +37,13 @@ class AssetApi extends ResourceController
         return $this->respond($data);
     }
 
+    /* Create a new asset record */
     public function create()
     {
+        // Get JSON request payload
         $data = $this->request->getJSON(true);
 
+        // Validate incoming JSON data
         if (!$data) {
 
             return $this->fail(
@@ -43,6 +51,7 @@ class AssetApi extends ResourceController
             );
         }
 
+        // Prepare asset data for insertion
         $insertData = [
 
             'asset_name' => $data['asset_name'] ?? '',
@@ -53,22 +62,28 @@ class AssetApi extends ResourceController
 
             'serial_number' => $data['serial_number'] ?? '',
 
+            // Default status if not provided
             'status' => $data['status'] ?? 'Available',
 
             'assigned_to' => $data['assigned_to'] ?? '',
 
+            // Default purchase date is today's date
             'purchase_date' => $data['purchase_date'] ?? date('Y-m-d'),
 
+            // Record creation timestamp
             'created_at' => date('Y-m-d H:i:s'),
 
             'updated_at' => null
 
         ];
 
+        // Insert asset into database
         $this->model->insert($insertData);
 
+        // Get newly inserted asset ID
         $insertID = $this->model->getInsertID();
 
+        // Generate unique asset code (e.g. AST-00001)
         $assetCode =
             'AST-' .
             str_pad(
@@ -78,6 +93,7 @@ class AssetApi extends ResourceController
                 STR_PAD_LEFT
             );
 
+        // Save generated asset code
         $this->model->update(
             $insertID,
             [
@@ -96,8 +112,10 @@ class AssetApi extends ResourceController
         ]);
     }
 
+    /* Update an existing asset */
     public function update($id = null)
     {
+        // Check if asset exists
         $asset = $this->model->find($id);
 
         if (!$asset) {
@@ -107,8 +125,10 @@ class AssetApi extends ResourceController
             );
         }
 
+        // Get updated data from request
         $data = $this->request->getJSON(true);
 
+        // Preserve existing values when no new value is provided
         $updateData = [
 
             'asset_name' =>
@@ -139,11 +159,13 @@ class AssetApi extends ResourceController
                 $data['purchase_date']
                 ?? $asset['purchase_date'],
 
+            // Update modification timestamp
             'updated_at' =>
                 date('Y-m-d H:i:s')
 
         ];
 
+        // Save updated asset information
         $this->model->update(
             $id,
             $updateData
@@ -158,8 +180,10 @@ class AssetApi extends ResourceController
         ]);
     }
 
+    /* Delete an asset by ID */
     public function delete($id = null)
     {
+        // Check if asset exists before deletion
         $asset = $this->model->find($id);
 
         if (!$asset) {
@@ -169,6 +193,7 @@ class AssetApi extends ResourceController
             );
         }
 
+        // Remove asset from database
         $this->model->delete($id);
 
         return $this->respond([

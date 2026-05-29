@@ -9,29 +9,30 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         rel="stylesheet">
 
-    <!-- BOOTSTRAP ICONS -->
-
+    <!-- Bootstrap Icons -->
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <!-- FONT AWESOME -->
-
+    <!-- Font Awesome Icons -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <!-- Bootstrap JavaScript Bundle -->
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
     </script>
 
     <style>
+        /* Global application styling */
         body {
             background: #0f172a;
             color: #e5e7eb;
             font-family: system-ui;
         }
 
+        /* Sidebar navigation */
         .sidebar {
             height: 100vh;
             background: #111827;
@@ -63,6 +64,7 @@
             background: #1f2937;
         }
 
+        /* Main content area */
         .content-area {
             background: #ffffff;
             color: #1e293b;
@@ -77,6 +79,7 @@
             background: #1f2937;
         }
 
+        /* System buttons */
         .btn {
             border-radius: 6px;
             font-weight: 500;
@@ -109,11 +112,13 @@
             background: #16a34a;
         }
 
+        /* Card components */
         .card {
             border: none;
             border-radius: 10px;
         }
 
+        /* Modal styling */
         .modal-content {
             background: #111827;
             color: #e5e7eb;
@@ -121,6 +126,7 @@
             border: 1px solid #1f2937;
         }
 
+        /* Form controls */
         .form-control,
         .form-select {
             background: #1f2933;
@@ -144,6 +150,7 @@
             overflow-x: auto;
         }
 
+        /* System footer */
         .footer {
             text-align: center;
             margin-top: 60px;
@@ -151,6 +158,7 @@
             font-size: 14px;
         }
 
+        /* Success and error alerts */
         .alert-success {
             background: #22c55e;
             border: none;
@@ -172,7 +180,7 @@
             filter: invert(1) brightness(0.7);
         }
 
-        /* SCROLLBAR */
+        /* Custom scrollbar */
 
         body::-webkit-scrollbar {
             width: 8px;
@@ -192,7 +200,7 @@
             background: #475569;
         }
 
-        /* MODAL ANIMATION */
+        /* Modal animation */
 
         .modal.fade .modal-dialog {
             transform: scale(.95);
@@ -208,11 +216,14 @@
 
 <body>
 
+    <!-- Main application container -->
     <div class="container-fluid">
 
         <div class="row">
 
             <?php
+
+            // Determine current page and user role
 
             $current = uri_string();
 
@@ -231,12 +242,14 @@
 
             ?>
 
+            <!-- Sidebar navigation menu -->
             <div class="col-2 sidebar">
 
                 <h4>Tech Asset Tracker</h4>
 
                 <hr>
 
+                <!-- Dashboard navigation link -->
                 <a href="/dashboard"
                     class="<?= $current == 'dashboard' ? 'active' : '' ?>">
 
@@ -246,6 +259,7 @@
 
                 </a>
 
+                <!-- Asset Management navigation link -->
                 <a href="/assets"
                     class="<?= $current == 'assets' ? 'active' : '' ?>">
 
@@ -255,6 +269,7 @@
 
                 </a>
 
+                <!-- Administrator-only navigation -->
                 <?php if ($role_id == 1): ?>
 
                     <a href="/users"
@@ -268,6 +283,7 @@
 
                 <?php endif; ?>
 
+                <!-- User logout -->
                 <a href="/logout">
 
                     <i class="bi bi-box-arrow-right me-2"></i>
@@ -278,8 +294,10 @@
 
             </div>
 
+            <!-- Main content section -->
             <div class="col-10 content-area p-4">
 
+                <!-- Display success notifications -->
                 <?php if (session()->getFlashdata('success')): ?>
 
                     <div class="alert alert-success alert-dismissible fade show">
@@ -298,6 +316,7 @@
 
                 <?php endif; ?>
 
+                <!-- Display error notifications -->
                 <?php if (session()->getFlashdata('error')): ?>
 
                     <div class="alert alert-danger alert-dismissible fade show">
@@ -316,6 +335,7 @@
 
                 <?php endif; ?>
 
+                <!-- Display authenticated user information -->
                 <h3 class="text-dark mb-4 fw-bold">
 
                     Welcome,
@@ -325,18 +345,24 @@
 
                 </h3>
 
+                <!-- Dynamic page content -->
                 <?= $this->renderSection('content') ?>
 
+                <!-- System footer -->
                 <div class="footer">
 
                     <hr>
 
-                    <p class="mb-0">
+                    <p class="mb-0 fw-semibold">
                         Tech Asset Tracker System
                     </p>
 
-                    <p>
-                        Developed using CodeIgniter 4
+                    <p class="mb-0 small text-muted">
+                        Developed and Maintained by Group 3
+                    </p>
+
+                    <p class="mb-0 small text-muted">
+                        © <?= date('Y') ?> All Rights Reserved
                     </p>
 
                 </div>

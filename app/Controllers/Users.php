@@ -8,11 +8,13 @@ class Users extends BaseController
 {
     public function __construct()
     {
+        // Ensure that only authenticated users can access this controller
         if (!session()->get('isLoggedIn')) {
 
             return redirect()->to('/login')->send();
         }
 
+        // Restrict access to administrators only
         if (session()->get('role_id') != 1) {
 
             return redirect()->to('/unauthorized')->send();
@@ -21,10 +23,12 @@ class Users extends BaseController
         }
     }
 
+    /* Display all registered users */
     public function index()
     {
         $userModel = new UserModel();
 
+        // Retrieve users ordered by newest first
         $data['users'] = $userModel
             ->orderBy('id', 'DESC')
             ->findAll();
@@ -32,12 +36,14 @@ class Users extends BaseController
         return view('users/index', $data);
     }
 
+    /* Create a new user account */
     public function store()
     {
         $userModel = new UserModel();
 
         $validation = \Config\Services::validation();
 
+        // User registration validation rules
         $validation->setRules([
 
             'name' => [
@@ -98,6 +104,7 @@ class Users extends BaseController
 
         ]);
 
+        // Return validation errors if input is invalid
         if (!$validation->withRequest($this->request)->run()) {
 
             return redirect()->back()
@@ -105,12 +112,14 @@ class Users extends BaseController
                 ->with('errors', $validation->getErrors());
         }
 
+        // Save new user record
         $userModel->save([
 
             'name' => $this->request->getPost('name'),
 
             'email' => $this->request->getPost('email'),
 
+            // Securely hash user password before storing
             'password' => password_hash(
                 $this->request->getPost('password'),
                 PASSWORD_DEFAULT
@@ -124,10 +133,12 @@ class Users extends BaseController
             ->with('success', 'User created successfully');
     }
 
+    /* Update user role */
     public function update($id)
     {
         $userModel = new UserModel();
 
+        // Verify that the user exists
         $user = $userModel->find($id);
 
         if (!$user) {
@@ -136,6 +147,7 @@ class Users extends BaseController
                 ->with('error', 'User not found');
         }
 
+        // Update assigned role
         $userModel->update($id, [
 
             'role_id' => $this->request->getPost('role_id')
@@ -146,10 +158,12 @@ class Users extends BaseController
             ->with('success', 'User role updated successfully');
     }
 
+    /* Delete a user account */
     public function delete($id)
     {
         $userModel = new UserModel();
 
+        // Verify that the user exists before deletion
         $user = $userModel->find($id);
 
         if (!$user) {
@@ -158,6 +172,7 @@ class Users extends BaseController
                 ->with('error', 'User not found');
         }
 
+        // Remove user record from database
         $userModel->delete($id);
 
         return redirect()->back()

@@ -3,6 +3,7 @@
 <?= $this->section('content') ?>
 
 <style>
+    /* User management table and modal styling */
     .table-wrapper {
         overflow-x: auto;
         overflow-y: hidden;
@@ -12,8 +13,6 @@
         scrollbar-width: thin;
         scrollbar-color: #9ca3af #e5e7eb;
     }
-
-    /* CHROME / EDGE / OPERA */
 
     .table-wrapper::-webkit-scrollbar {
         height: 14px;
@@ -184,10 +183,12 @@
 
             </div>
 
+            <!-- Create new user account form -->
             <form
                 method="post"
                 action="/users/store">
 
+                <!-- CSRF protection token -->
                 <?= csrf_field() ?>
 
                 <div class="modal-body">
@@ -220,6 +221,7 @@
 
                     </div>
 
+                    <!-- User password input with visibility toggle -->
                     <div class="mb-3 position-relative">
 
                         <label class="form-label">
@@ -248,6 +250,7 @@
                             Role
                         </label>
 
+                        <!-- User role selection -->
                         <select
                             name="role_id"
                             class="form-select"
@@ -295,6 +298,7 @@
 
 </div>
 
+<!-- Registered user records -->
 <div class="card">
 
     <div class="card-header d-flex justify-content-between align-items-center">
@@ -320,6 +324,7 @@
 
         <div class="table-wrapper">
 
+            <!-- User information table -->
             <table class="table table-bordered">
 
                 <thead class="table-dark">
@@ -348,6 +353,7 @@
 
                     <?php if (isset($users) && count($users) > 0): ?>
 
+                        <!-- Display all registered users -->
                         <?php foreach ($users as $user): ?>
 
                             <tr>
@@ -365,7 +371,7 @@
                                 </td>
 
                                 <td>
-
+                                    <!-- Display user role using color-coded badges -->
                                     <?php if ($user['role_id'] == 1): ?>
 
                                         <span class="badge badge-admin">
@@ -403,7 +409,7 @@
                                 </td>
 
                                 <td>
-
+                                    <!-- Format account creation timestamp -->
                                     <?= !empty($user['created_at'])
                                         ? date(
                                             'F d, Y • h:i A',
@@ -414,7 +420,7 @@
                                 </td>
 
                                 <td>
-
+                                    <!-- Display last account update timestamp -->
                                     <?=
                                     (
                                         !empty($user['updated_at']) &&
@@ -430,7 +436,7 @@
                                 </td>
 
                                 <td>
-
+                                    <!-- User management actions -->
                                     <div class="action-group">
 
                                         <button
@@ -483,7 +489,7 @@
                                             </button>
 
                                         </div>
-
+                                        <!-- Update user role form -->
                                         <form
                                             method="post"
                                             action="/users/update/<?= $user['id'] ?>">
@@ -638,6 +644,7 @@
 
                         <?php endforeach; ?>
 
+                        <!-- Display message when no user records exist -->
                     <?php else: ?>
 
                         <tr>
@@ -663,9 +670,8 @@
 </div>
 
 <script>
-
-    function togglePassword(id, icon)
-    {
+    // Toggle password visibility
+    function togglePassword(id, icon) {
         const input = document.getElementById(id);
 
         if (input.type === "password") {
@@ -684,14 +690,13 @@
         }
     }
 
-    function showEye(id)
-    {
+    // Show password toggle icon when password field gains focus
+    function showEye(id) {
         document
             .getElementById(id)
             .classList
             .add("show");
     }
-
 </script>
 
 <?= $this->endSection() ?>

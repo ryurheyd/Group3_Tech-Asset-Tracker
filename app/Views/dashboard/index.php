@@ -3,6 +3,8 @@
 <?= $this->section('content') ?>
 
 <style>
+
+    /* Dashboard table scrolling and card styling */
     .table-responsive {
         overflow-x: auto;
         scroll-behavior: smooth;
@@ -24,9 +26,12 @@
     .dashboard-card:hover {
         transform: translateY(-3px);
     }
+
 </style>
 
 <?php
+
+// Initialize dashboard statistics with default values
 
 $totalAssets = $totalAssets ?? 0;
 
@@ -42,8 +47,10 @@ $recentAssets = $recentAssets ?? [];
 
 ?>
 
+<!-- Dashboard summary statistics -->
 <div class="row mb-4">
 
+    <!-- Total registered assets -->
     <div class="col-md-3 mb-3">
 
         <div class="card shadow border-0 dashboard-card h-100">
@@ -142,6 +149,7 @@ $recentAssets = $recentAssets ?? [];
 
 </div>
 
+<!-- Quick access to Asset Management module -->
 <div class="row mb-4">
 
     <div class="col-md-12">
@@ -176,6 +184,7 @@ $recentAssets = $recentAssets ?? [];
 
 </div>
 
+<!-- Recently added asset records -->
 <div class="card shadow border-0">
 
     <div class="card-header bg-white">
@@ -188,6 +197,7 @@ $recentAssets = $recentAssets ?? [];
 
         <div class="table-responsive" id="tableScroll">
 
+            <!-- Recent asset information table -->
             <table class="table table-bordered">
 
                 <thead class="table-dark">
@@ -218,6 +228,7 @@ $recentAssets = $recentAssets ?? [];
 
                     <?php if (count($recentAssets) > 0): ?>
 
+                        <!-- Display recent asset records -->
                         <?php foreach ($recentAssets as $row): ?>
 
                             <tr>
@@ -244,6 +255,7 @@ $recentAssets = $recentAssets ?? [];
 
                                 <td>
 
+                                    <!-- Display asset status using color-coded badges -->
                                     <?php if ($row['status'] == 'Available'): ?>
 
                                         <span class="badge bg-success">
@@ -280,6 +292,8 @@ $recentAssets = $recentAssets ?? [];
 
                                     <?php
 
+                                    // Format asset purchase date using Philippine timezone
+
                                     $phTime = new DateTime(
                                         $row['purchase_date'],
                                         new DateTimeZone('Asia/Manila')
@@ -291,13 +305,13 @@ $recentAssets = $recentAssets ?? [];
 
                                 </td>
 
-
                             </tr>
 
                         <?php endforeach; ?>
 
                     <?php else: ?>
 
+                        <!-- Display message when no asset records exist -->
                         <tr>
 
                             <td colspan="9">
@@ -320,27 +334,40 @@ $recentAssets = $recentAssets ?? [];
 
 </div>
 
+<!-- Enable horizontal scrolling using mouse wheel -->
 <script>
+
+    // Initialize dashboard table scroll behavior
     document.addEventListener(
         "DOMContentLoaded",
         function() {
+
             const tableContainer =
                 document.getElementById('tableScroll');
 
             if (tableContainer) {
+
+                // Convert vertical mouse wheel movement into horizontal scrolling
                 tableContainer.addEventListener(
                     'wheel',
                     function(e) {
+
                         if (e.deltaY !== 0) {
+
                             e.preventDefault();
 
                             this.scrollLeft += e.deltaY;
+
                         }
+
                     }
                 );
+
             }
+
         }
     );
+
 </script>
 
 <?= $this->endSection() ?>

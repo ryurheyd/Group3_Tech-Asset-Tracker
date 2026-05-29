@@ -26,11 +26,7 @@ class Filters extends BaseConfig
 
         'secureheaders' => SecureHeaders::class,
 
-        /*
-        |--------------------------------------------------------------------------
-        | Custom Filters
-        |--------------------------------------------------------------------------
-        */
+        /* Custom Filters */
 
         'auth' => \App\Filters\AuthFilter::class,
 
@@ -42,9 +38,7 @@ class Filters extends BaseConfig
 
     ];
 
-    /**
-     * Global Filters
-     */
+    /* Global Filters */
     public array $globals = [
 
         'before' => [
@@ -67,13 +61,9 @@ class Filters extends BaseConfig
 
     ];
 
-    /**
-     * Method Filters
-     */
+    /*  Filters */
     public array $methods = [];
 
-    /**
-     * Route Filters
-     */
+    /* Route Filters */
     public array $filters = [];
 }

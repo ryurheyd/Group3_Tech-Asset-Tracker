@@ -1,7 +1,7 @@
 <?= $this->extend('layout/main') ?>
 
 <?= $this->section('content') ?>
-
+// Set Philippine timezone for date and time display
 <?php date_default_timezone_set('Asia/Manila'); ?>
 
 <style>
@@ -121,6 +121,7 @@
     }
 </style>
 
+<!-- Asset Management Page -->
 <h2 class="mb-4">
 
     Asset Management
@@ -133,6 +134,7 @@
 
         Assets
 
+        <!-- Hide asset creation feature from technician accounts -->
         <?php if (session()->get('role_id') != 3): ?>
 
             <button

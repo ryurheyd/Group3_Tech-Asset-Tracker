@@ -1,3 +1,4 @@
+<!-- User Authentication Page -->
 <!DOCTYPE html>
 <html>
 
@@ -15,6 +16,7 @@
 
     <style>
 
+        /* Login page layout and appearance */
         body {
             height: 100vh;
             display: flex;
@@ -25,6 +27,7 @@
             color: #e5e7eb;
         }
 
+        /* Authentication card container */
         .auth-card {
             width: 480px;
             background: #111827;
@@ -32,8 +35,8 @@
             border-radius: 24px;
             padding: 48px;
             box-shadow:
-                0 25px 50px rgba(0,0,0,.35),
-                inset 0 1px 0 rgba(255,255,255,.02);
+                0 25px 50px rgba(0, 0, 0, .35),
+                inset 0 1px 0 rgba(255, 255, 255, .02);
         }
 
         .auth-title {
@@ -51,6 +54,7 @@
             margin-bottom: 38px;
         }
 
+        /* Floating label input fields */
         .input-group-custom {
             position: relative;
             margin-bottom: 24px;
@@ -87,8 +91,8 @@
             border-color: #3b82f6;
 
             box-shadow:
-                0 0 0 4px rgba(59,130,246,.14),
-                0 8px 20px rgba(0,0,0,.18);
+                0 0 0 4px rgba(59, 130, 246, .14),
+                0 8px 20px rgba(0, 0, 0, .18);
 
             color: #fff;
 
@@ -106,8 +110,8 @@
             transition: .2s ease;
         }
 
-        .form-control:focus + .floating-label,
-        .form-control:not(:placeholder-shown) + .floating-label {
+        .form-control:focus+.floating-label,
+        .form-control:not(:placeholder-shown)+.floating-label {
             top: 10px;
             transform: translateY(0);
             font-size: 10px;
@@ -121,11 +125,9 @@
         }
 
         .btn-primary {
-            background: linear-gradient(
-                135deg,
-                #3b82f6,
-                #2563eb
-            );
+            background: linear-gradient(135deg,
+                    #3b82f6,
+                    #2563eb);
 
             border: none;
             height: 56px;
@@ -138,16 +140,14 @@
         }
 
         .btn-primary:hover {
-            background: linear-gradient(
-                135deg,
-                #4f8df7,
-                #2563eb
-            );
+            background: linear-gradient(135deg,
+                    #4f8df7,
+                    #2563eb);
 
             transform: translateY(-2px);
 
             box-shadow:
-                0 12px 20px rgba(37,99,235,.22);
+                0 12px 20px rgba(37, 99, 235, .22);
         }
 
         .alert-danger {
@@ -188,6 +188,7 @@
             position: relative;
         }
 
+        /* Password visibility toggle button */
         .password-toggle {
             position: absolute;
             right: 18px;
@@ -239,8 +240,10 @@
 
 <body>
 
+    <!-- Login form container -->
     <div class="auth-card">
 
+        <!-- System title and login instructions -->
         <div class="auth-title">
             Welcome Back
         </div>
@@ -249,7 +252,8 @@
             Login to Tech Asset Tracker
         </div>
 
-        <?php if(session()->getFlashdata('error')): ?>
+        <!-- Display authentication error messages -->
+        <?php if (session()->getFlashdata('error')): ?>
 
             <div class="alert alert-danger">
 
@@ -259,7 +263,8 @@
 
         <?php endif; ?>
 
-        <?php if(session()->getFlashdata('success')): ?>
+        <!-- Display success messages -->
+        <?php if (session()->getFlashdata('success')): ?>
 
             <div class="alert alert-success">
 
@@ -269,14 +274,17 @@
 
         <?php endif; ?>
 
+        <!-- User login form -->
         <form method="post" action="/login">
 
+            <!-- CSRF protection token -->
             <?= csrf_field() ?>
 
+            <!-- User email input -->
             <div class="input-group-custom">
 
                 <input
-                    type="text"
+                    type="email"
                     name="login"
                     class="form-control"
                     placeholder=" "
@@ -288,6 +296,7 @@
 
             </div>
 
+            <!-- User password input -->
             <div class="input-group-custom password-wrapper">
 
                 <input
@@ -303,6 +312,7 @@
                     Password
                 </label>
 
+                <!-- Password visibility toggle -->
                 <i
                     class="fa-solid fa-eye password-toggle"
                     id="togglePassword"
@@ -311,6 +321,7 @@
 
             </div>
 
+            <!-- Submit login credentials -->
             <button class="btn btn-primary w-100">
 
                 Login
@@ -321,37 +332,39 @@
 
     </div>
 
-<script>
+    <script>
 
-    function togglePassword(id, icon)
-    {
-        const input = document.getElementById(id);
+        // Toggle password visibility
+        function togglePassword(id, icon)
+        {
+            const input = document.getElementById(id);
 
-        if (input.type === "password") {
+            if (input.type === "password") {
 
-            input.type = "text";
+                input.type = "text";
 
-            icon.classList.remove("fa-eye");
-            icon.classList.add("fa-eye-slash");
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
 
-        } else {
+            } else {
 
-            input.type = "password";
+                input.type = "password";
 
-            icon.classList.remove("fa-eye-slash");
-            icon.classList.add("fa-eye");
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
         }
-    }
 
-    function showEye(id)
-    {
-        document
-            .getElementById(id)
-            .classList
-            .add("show");
-    }
+        // Show password toggle icon when password field gains focus
+        function showEye(id)
+        {
+            document
+                .getElementById(id)
+                .classList
+                .add("show");
+        }
 
-</script>
+    </script>
 
 </body>
 
