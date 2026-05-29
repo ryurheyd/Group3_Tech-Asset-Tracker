@@ -1,7 +1,6 @@
 <?= $this->extend('layout/main') ?>
 
 <?= $this->section('content') ?>
-// Set Philippine timezone for date and time display
 <?php date_default_timezone_set('Asia/Manila'); ?>
 
 <style>
