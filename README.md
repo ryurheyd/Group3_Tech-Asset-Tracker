@@ -25,6 +25,8 @@ to your `app` folder. The affected files can be copied or merged from
 
 ## Setup
 
+
+yes yes whoops
 Copy `env` to `.env` and tailor for your app, specifically the baseURL
 and any database settings.
 
